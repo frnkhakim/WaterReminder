@@ -15,7 +15,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const WaterReminderApp());
 
-    expect(find.text('Water Reminder'), findsOneWidget);
-    expect(find.text('Welcome to Water Reminder!'), findsOneWidget);
+    expect(find.text('Hydration Tracker'), findsOneWidget);
+    expect(find.text("Today's Progress"), findsOneWidget);
   });
 }
