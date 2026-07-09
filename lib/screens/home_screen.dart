@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Icon(Icons.refresh),
                     SizedBox(width: 8),
-                    Text("Drink 250 ml"),
+                    Text("Reset"),
                   ],
                 ),
               ),
