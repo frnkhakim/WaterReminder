@@ -249,9 +249,16 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView.builder(
                 itemCount: drinkHistory.length,
                 itemBuilder: (context, index) {
+                  final drink =
+                  drinkHistory[drinkHistory.length - 1 - index];
+
                   return ListTile(
                     leading: const Icon(Icons.local_drink),
-                    title: Text("${drinkHistory[index].amount} ml"),
+                    title: Text("${drink.amount} ml"),
+                    subtitle: Text(
+                      "${drink.time.hour}:"
+                          "${drink.time.minute.toString().padLeft(2, '0')}",
+                    ),
                   );
                 },
               ),
