@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+
                 onPressed: () {
                   setState(() {
                     currentWater += 250;
@@ -83,6 +84,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   });
                 },
+
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+
+                ),
+
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -100,11 +112,23 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: double.infinity,
               child:  OutlinedButton(
+
                 onPressed: () {
                   setState(() {
                     currentWater = 0;
                   });
                 },
+
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
+
+                ),
+
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
