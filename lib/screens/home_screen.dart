@@ -229,6 +229,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
+            Expanded(
+              child: ListView.builder(
+                itemCount: drinkHistory.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: const Icon(Icons.local_drink),
+                    title: Text("${drinkHistory[index]} ml"),
+                  );
+                },
+              ),
+            )
+
 
           ],
         ),
