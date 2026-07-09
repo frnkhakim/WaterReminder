@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waterreminder/models/drink_entry.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentWater = 800;
   final int dailyGoal = 2000;
-  List<int> drinkHistory = [];
+  List<DrinkEntry> drinkHistory = [];
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   setState(() {
                     currentWater += 250;
-                    drinkHistory.add(250);
+                    drinkHistory.add(
+                      DrinkEntry(
+                        amount: 250,
+                        time: DateTime.now(),
+                      ),
+                    );
 
                     if (currentWater > dailyGoal) {
                       currentWater = dailyGoal;
@@ -126,7 +132,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   setState(() {
                     currentWater += 500;
-                    drinkHistory.add(500);
+                    drinkHistory.add(
+                      DrinkEntry(
+                        amount: 500,
+                        time: DateTime.now(),
+                      ),
+                    );
 
                     if (currentWater > dailyGoal) {
                       currentWater = dailyGoal;
@@ -165,7 +176,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   setState(() {
                     currentWater += 750;
-                    drinkHistory.add(750);
+                    drinkHistory.add(
+                      DrinkEntry(
+                        amount: 750,
+                        time: DateTime.now(),
+                      ),
+                    );
 
                     if (currentWater > dailyGoal) {
                       currentWater = dailyGoal;
@@ -235,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: const Icon(Icons.local_drink),
-                    title: Text("${drinkHistory[index]} ml"),
+                    title: Text("${drinkHistory[index].amount} ml"),
                   );
                 },
               ),
