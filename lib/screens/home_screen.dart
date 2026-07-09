@@ -81,7 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 });
               },
-              child: const Text("Drink 250 ml"),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.water_drop),
+                  SizedBox(width: 8),
+                  Text("Drink 250 ml"),
+                ],
+              ),
             ),
 
             const SizedBox(height: 15),
@@ -92,7 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentWater = 0;
                 });
               },
-              child: const Text("Reset"),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.refresh),
+                  SizedBox(width: 8),
+                  Text("Drink 250 ml"),
+                ],
+              ),
             ),
           ],
         ),
