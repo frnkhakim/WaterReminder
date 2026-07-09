@@ -41,13 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         const SizedBox(width: 10),
 
-                        const Text(
-                          "Today's Progress",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                        Expanded(
+                          child:  const Text(
+                            "Today's Progress",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
+
+                        const Icon(
+                          Icons.local_drink,
+                          color: Colors.green,
+                        ),
+
                       ],
                     ),
 
