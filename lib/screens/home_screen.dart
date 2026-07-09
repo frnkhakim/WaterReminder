@@ -10,6 +10,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentWater = 800;
   final int dailyGoal = 2000;
+  List<int> drinkHistory = [];
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   setState(() {
                     currentWater += 250;
+                    drinkHistory.add(250);
 
                     if (currentWater > dailyGoal) {
                       currentWater = dailyGoal;
@@ -119,11 +121,90 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(
               width: double.infinity,
+              child: ElevatedButton(
+
+                onPressed: () {
+                  setState(() {
+                    currentWater += 500;
+                    drinkHistory.add(500);
+
+                    if (currentWater > dailyGoal) {
+                      currentWater = dailyGoal;
+                    }
+                  });
+                },
+
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+
+                ),
+
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.water_drop),
+                    SizedBox(width: 8),
+                    Text("Drink 500 ml"),
+                  ],
+                ),
+              ),
+
+            ),
+
+            const SizedBox(height: 15),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+
+                onPressed: () {
+                  setState(() {
+                    currentWater += 750;
+                    drinkHistory.add(750);
+
+                    if (currentWater > dailyGoal) {
+                      currentWater = dailyGoal;
+                    }
+                  });
+                },
+
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+
+                ),
+
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.water_drop),
+                    SizedBox(width: 8),
+                    Text("Drink 750 ml"),
+                  ],
+                ),
+              ),
+
+            ),
+
+            const SizedBox(height: 15),
+
+            SizedBox(
+              width: double.infinity,
               child:  OutlinedButton(
 
                 onPressed: () {
                   setState(() {
                     currentWater = 0;
+                    drinkHistory.clear();
                   });
                 },
 
