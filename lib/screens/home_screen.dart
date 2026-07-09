@@ -71,43 +71,55 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 30),
 
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  currentWater += 250;
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    currentWater += 250;
 
-                  if (currentWater > dailyGoal) {
-                    currentWater = dailyGoal;
-                  }
-                });
-              },
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.water_drop),
-                  SizedBox(width: 8),
-                  Text("Drink 250 ml"),
-                ],
+                    if (currentWater > dailyGoal) {
+                      currentWater = dailyGoal;
+                    }
+                  });
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.water_drop),
+                    SizedBox(width: 8),
+                    Text("Drink 250 ml"),
+                  ],
+                ),
               ),
+
             ),
+
+
+
 
             const SizedBox(height: 15),
 
-            OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  currentWater = 0;
-                });
-              },
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.refresh),
-                  SizedBox(width: 8),
-                  Text("Drink 250 ml"),
-                ],
+            SizedBox(
+              width: double.infinity,
+              child:  OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    currentWater = 0;
+                  });
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.refresh),
+                    SizedBox(width: 8),
+                    Text("Drink 250 ml"),
+                  ],
+                ),
               ),
             ),
+
+
           ],
         ),
       ),
