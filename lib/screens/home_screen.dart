@@ -13,9 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double progress = currentWater / dailyGoal;
-
-
+    final progress = currentWater / dailyGoal;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,11 +24,48 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Today's Progress",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.water_drop,
+                          color: Colors.blue,
+                          size: 30,
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        const Text(
+                          "Today's Progress",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 12,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    Text(
+                      "$currentWater ml / $dailyGoal ml",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -58,20 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: const Text("Reset"),
-            ),
-
-            const SizedBox(height: 20),
-
-            LinearProgressIndicator(
-              value: progress,
-              minHeight: 12,
-            ),
-
-            const SizedBox(height: 10),
-
-            Text(
-              "$currentWater ml / $dailyGoal ml",
-              style: const TextStyle(fontSize: 18),
             ),
           ],
         ),
