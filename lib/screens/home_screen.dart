@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waterreminder/models/drink_entry.dart';
+import 'package:waterreminder/services/preferences_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,13 +14,32 @@ class _HomeScreenState extends State<HomeScreen> {
   final int dailyGoal = 2000;
   List<DrinkEntry> drinkHistory = [];
 
+  final PreferencesService _prefs = PreferencesService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWater();
+  }
+
+  Future<void> _saveWater() async {
+    await _prefs.setCurrentMl(currentWater);
+  }
+
+  Future<void> _loadWater() async {
+    final saved = await _prefs.getCurrentMl();
+    setState(() {
+      currentWater = saved ?? currentWater;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final progress = currentWater / dailyGoal;
+    final progress = (dailyGoal > 0) ? (currentWater / dailyGoal) : 0.0;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Water Reminder"),
+        title: const Text('Hydration Tracker'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -32,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Row(
                       children: [
                         const Icon(
@@ -43,8 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         const SizedBox(width: 10),
 
-                        Expanded(
-                          child:  const Text(
+                        const Expanded(
+                          child: Text(
                             "Today's Progress",
                             style: TextStyle(
                               fontSize: 24,
@@ -57,14 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icons.local_drink,
                           color: Colors.green,
                         ),
-
                       ],
                     ),
 
                     const SizedBox(height: 20),
 
                     LinearProgressIndicator(
-                      value: progress,
+                      value: progress.clamp(0.0, 1.0),
                       minHeight: 12,
                     ),
 
@@ -84,7 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-
                 onPressed: () {
                   setState(() {
                     currentWater += 250;
@@ -99,8 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentWater = dailyGoal;
                     }
                   });
+                  _saveWater();
                 },
-
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -108,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
-
                 ),
 
                 child: const Row(
@@ -120,7 +136,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
             ),
 
             const SizedBox(height: 15),
@@ -128,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-
                 onPressed: () {
                   setState(() {
                     currentWater += 500;
@@ -143,8 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentWater = dailyGoal;
                     }
                   });
+                  _saveWater();
                 },
-
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -152,7 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
-
                 ),
 
                 child: const Row(
@@ -164,7 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
             ),
 
             const SizedBox(height: 15),
@@ -172,7 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-
                 onPressed: () {
                   setState(() {
                     currentWater += 750;
@@ -187,8 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentWater = dailyGoal;
                     }
                   });
+                  _saveWater();
                 },
-
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -196,7 +207,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
-
                 ),
 
                 child: const Row(
@@ -208,22 +218,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
             ),
 
             const SizedBox(height: 15),
 
             SizedBox(
               width: double.infinity,
-              child:  OutlinedButton(
-
+              child: OutlinedButton(
                 onPressed: () {
                   setState(() {
                     currentWater = 0;
                     drinkHistory.clear();
                   });
+                  _saveWater();
                 },
-
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -231,7 +239,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   backgroundColor: Colors.grey,
                   foregroundColor: Colors.white,
-
                 ),
 
                 child: const Row(
@@ -249,8 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView.builder(
                 itemCount: drinkHistory.length,
                 itemBuilder: (context, index) {
-                  final drink =
-                  drinkHistory[drinkHistory.length - 1 - index];
+                  final drink = drinkHistory[drinkHistory.length - 1 - index];
 
                   return ListTile(
                     leading: const Icon(Icons.local_drink),
@@ -264,10 +270,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
 
-
           ],
         ),
       ),
     );
   }
+
 }
