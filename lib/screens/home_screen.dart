@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterreminder/models/drink_entry.dart';
 import 'package:waterreminder/services/preferences_service.dart';
 
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadWater();
+    loadHistory();
   }
 
   Future<void> _saveWater() async {
@@ -30,6 +32,48 @@ class _HomeScreenState extends State<HomeScreen> {
     final saved = await _prefs.getCurrentMl();
     setState(() {
       currentWater = saved ?? currentWater;
+    });
+  }
+
+  Future<void> saveHistory() async {
+    final prefs =
+    await SharedPreferences.getInstance();
+
+    final historyStrings =
+    drinkHistory
+        .map(
+          (drink) =>
+          drink.toStorageString(),
+    )
+        .toList();
+
+    await prefs.setStringList(
+      'drinkHistory',
+      historyStrings,
+    );
+  }
+
+  Future<void> loadHistory() async {
+    final prefs =
+    await SharedPreferences.getInstance();
+
+    final historyStrings =
+        prefs.getStringList(
+          'drinkHistory',
+        ) ??
+            [];
+
+    setState(() {
+      drinkHistory =
+          historyStrings
+              .map(
+                (value) =>
+                DrinkEntry
+                    .fromStorageString(
+                  value,
+                ),
+          )
+              .toList();
     });
   }
 
@@ -117,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   });
                   _saveWater();
+                  saveHistory();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -158,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   });
                   _saveWater();
+                  saveHistory();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -199,6 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   });
                   _saveWater();
+                  saveHistory();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -231,6 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     drinkHistory.clear();
                   });
                   _saveWater();
+                  saveHistory();
                 },
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
