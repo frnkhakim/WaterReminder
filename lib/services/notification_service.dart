@@ -28,20 +28,15 @@ class NotificationService {
   }
 
   Future<void> showNotification() async {
-    const androidDetails =
-    AndroidNotificationDetails(
+    final androidDetails = AndroidNotificationDetails(
       'water_channel',
       'Water Reminder',
-      channelDescription:
-      'Water reminder notifications',
+      channelDescription: 'Water reminder notifications',
       importance: Importance.max,
       priority: Priority.high,
     );
 
-    const details =
-    NotificationDetails(
-      android: androidDetails,
-    );
+    final details = NotificationDetails(android: androidDetails);
 
     await flutterLocalNotificationsPlugin.show(
       0,
@@ -52,41 +47,7 @@ class NotificationService {
   }
 
   Future<void> scheduleNotification() async {
-    const androidDetails =
-    AndroidNotificationDetails(
-      'water_channel',
-      'Water Reminder',
-      channelDescription:
-      'Water reminder notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
-
-    const details =
-    NotificationDetails(
-      android: androidDetails,
-    );
-
-    await flutterLocalNotificationsPlugin
-        .zonedSchedule(
-      1,
-      '💧 Water Reminder',
-      'Time to drink some water!',
-      tz.TZDateTime.now(
-        tz.local,
-      ).add(
-        const Duration(seconds: 10),
-      ),
-      details,
-      androidScheduleMode:
-      AndroidScheduleMode.exactAllowWhileIdle,
-    );
-  }
-
-  Future<void> startRepeatingReminder({
-    required RepeatInterval interval,
-  }) async {
-    const androidDetails = AndroidNotificationDetails(
+    final androidDetails = AndroidNotificationDetails(
       'water_channel',
       'Water Reminder',
       channelDescription: 'Water reminder notifications',
@@ -94,7 +55,30 @@ class NotificationService {
       priority: Priority.high,
     );
 
-    const details = NotificationDetails(android: androidDetails);
+    final details = NotificationDetails(android: androidDetails);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      1,
+      '💧 Water Reminder',
+      'Time to drink some water!',
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
+  }
+
+  Future<void> startRepeatingReminder({
+    required RepeatInterval interval,
+  }) async {
+    final androidDetails = AndroidNotificationDetails(
+      'water_channel',
+      'Water Reminder',
+      channelDescription: 'Water reminder notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    final details = NotificationDetails(android: androidDetails);
 
     await flutterLocalNotificationsPlugin.periodicallyShow(
       2,

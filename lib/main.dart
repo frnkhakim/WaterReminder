@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waterreminder/theme/app_theme.dart';
-import 'screens/home_screen.dart';
-import 'services/notification_service.dart';
+import 'package:waterreminder/screens/home_screen.dart';
+import 'package:waterreminder/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

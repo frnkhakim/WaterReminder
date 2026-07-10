@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'notification_service.dart';
+import 'package:waterreminder/services/notification_service.dart';
 
 class ReminderService {
   final NotificationService notificationService = NotificationService();
