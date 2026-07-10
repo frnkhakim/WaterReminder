@@ -11,9 +11,7 @@ class NotificationService {
     tz.initializeTimeZones();
 
     const androidSettings =
-    AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const settings =
     InitializationSettings(
@@ -85,8 +83,30 @@ class NotificationService {
     );
   }
 
+  Future<void> startRepeatingReminder({
+    required RepeatInterval interval,
+  }) async {
+    const androidDetails = AndroidNotificationDetails(
+      'water_channel',
+      'Water Reminder',
+      channelDescription: 'Water reminder notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const details = NotificationDetails(android: androidDetails);
+
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+      2,
+      '💧 Water Reminder',
+      'Time to drink some water!',
+      interval,
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
+  }
+
   Future<void> cancelAll() async {
-    await flutterLocalNotificationsPlugin
-        .cancelAll();
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }
