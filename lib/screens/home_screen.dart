@@ -5,6 +5,7 @@ import 'package:waterreminder/services/notification_service.dart';
 import 'package:waterreminder/services/preferences_service.dart';
 import 'package:waterreminder/services/reminder_service.dart';
 import 'package:waterreminder/screens/reminder_screen.dart';
+import 'package:waterreminder/theme/app_theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -174,6 +175,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Hydration Tracker'),
         actions: [
+          ValueListenableBuilder<ThemeMode>(
+            valueListenable: AppTheme.themeNotifier,
+            builder: (context, themeMode, _) => IconButton(
+              icon: Icon(
+                themeMode == ThemeMode.dark
+                    ? Icons.light_mode_outlined
+                    : Icons.dark_mode_outlined,
+              ),
+              tooltip: 'Toggle theme',
+              onPressed: AppTheme.toggle,
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
             tooltip: 'Reminders',
@@ -185,11 +198,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF64B5F6), Color(0xFFE3F2FD)],
+            colors: AppTheme.isDark
+                ? [const Color(0xFF1A237E), const Color(0xFF121212)]
+                : [const Color(0xFF64B5F6), const Color(0xFFE3F2FD)],
           ),
         ),
         child: SafeArea(

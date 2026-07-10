@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:waterreminder/theme/app_theme.dart';
 import 'screens/home_screen.dart';
 import 'services/notification_service.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-
-  await NotificationService()
-      .initialize();
-
+  await NotificationService().initialize();
+  await AppTheme.load();
   runApp(const WaterReminderApp());
 }
 
@@ -17,9 +15,17 @@ class WaterReminderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: AppTheme.themeNotifier,
+      builder: (context, themeMode, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: themeMode,
+          home: const HomeScreen(),
+        );
+      },
     );
   }
 }
