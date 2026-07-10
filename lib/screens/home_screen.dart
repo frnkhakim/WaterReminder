@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterreminder/models/drink_entry.dart';
+import 'package:waterreminder/services/notification_service.dart';
 import 'package:waterreminder/services/preferences_service.dart';
+import 'package:waterreminder/services/notification_service.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<DrinkEntry> drinkHistory = [];
 
   final PreferencesService _prefs = PreferencesService();
+  final NotificationService _notifications = NotificationService();
 
   @override
   void initState() {
@@ -143,6 +147,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 30),
 
+            ElevatedButton(
+              onPressed: () {
+                NotificationService()
+                    .showNotification();
+              },
+              child: const Text(
+                'Test Notification',
+              ),
+            ),
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -262,6 +276,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(Icons.water_drop),
                     SizedBox(width: 8),
                     Text("Drink 750 ml"),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => _notifications.showNotification(),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.notifications),
+                    SizedBox(width: 8),
+                    Text("Test Notification"),
                   ],
                 ),
               ),
