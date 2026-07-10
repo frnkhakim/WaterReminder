@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterreminder/models/drink_entry.dart';
 import 'package:waterreminder/services/notification_service.dart';
 import 'package:waterreminder/services/preferences_service.dart';
-import 'package:waterreminder/services/notification_service.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final int dailyGoal = 2000;
   List<DrinkEntry> drinkHistory = [];
 
+  bool remindersEnabled = false;
+
+  int reminderHours = 2;
+
   final PreferencesService _prefs = PreferencesService();
   final NotificationService _notifications = NotificationService();
 
@@ -26,6 +29,41 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _loadWater();
     loadHistory();
+    loadReminderSettings();
+  }
+
+  Future<void> saveReminderSettings() async {
+    final prefs =
+    await SharedPreferences.getInstance();
+
+    await prefs.setBool(
+      'remindersEnabled',
+      remindersEnabled,
+    );
+
+    await prefs.setInt(
+      'reminderHours',
+      reminderHours,
+    );
+  }
+
+  Future<void> loadReminderSettings() async {
+    final prefs =
+    await SharedPreferences.getInstance();
+
+    setState(() {
+      remindersEnabled =
+          prefs.getBool(
+            'remindersEnabled',
+          ) ??
+              false;
+
+      reminderHours =
+          prefs.getInt(
+            'reminderHours',
+          ) ??
+              2;
+    });
   }
 
   Future<void> _saveWater() async {
@@ -146,16 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             const SizedBox(height: 30),
-
-            ElevatedButton(
-              onPressed: () {
-                NotificationService()
-                    .showNotification();
-              },
-              child: const Text(
-                'Test Notification',
-              ),
-            ),
 
             SizedBox(
               width: double.infinity,
@@ -355,7 +383,54 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-            )
+            ),
+
+            SwitchListTile(
+              title: const Text(
+                'Enable Reminders',
+              ),
+              value: remindersEnabled,
+              onChanged: (value) {
+                setState(() {
+                  remindersEnabled = value;
+                });
+
+                saveReminderSettings();
+              },
+            ),
+
+            DropdownButton<int>(
+              value: reminderHours,
+              items: const [
+                DropdownMenuItem(
+                  value: 1,
+                  child: Text(
+                    'Every 1 Hour',
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: 2,
+                  child: Text(
+                    'Every 2 Hours',
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: 3,
+                  child: Text(
+                    'Every 3 Hours',
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                if (value == null) return;
+
+                setState(() {
+                  reminderHours = value;
+                });
+
+                saveReminderSettings();
+              },
+            ),
 
           ],
         ),

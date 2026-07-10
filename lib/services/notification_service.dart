@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin
@@ -6,31 +8,29 @@ class NotificationService {
   FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-    const AndroidInitializationSettings
-    androidSettings =
+    tz.initializeTimeZones();
+
+    const androidSettings =
     AndroidInitializationSettings(
       '@mipmap/ic_launcher',
     );
 
-    const InitializationSettings
-    initializationSettings =
+    const settings =
     InitializationSettings(
       android: androidSettings,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await flutterLocalNotificationsPlugin
+        .initialize(settings);
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
   }
 
   Future<void> showNotification() async {
-    const AndroidNotificationDetails
-    androidDetails =
+    const androidDetails =
     AndroidNotificationDetails(
       'water_channel',
       'Water Reminder',
@@ -40,22 +40,53 @@ class NotificationService {
       priority: Priority.high,
     );
 
-    const NotificationDetails
-    notificationDetails =
+    const details =
+    NotificationDetails(
+      android: androidDetails,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      '💧 Water Reminder',
+      'Time to drink some water!',
+      details,
+    );
+  }
+
+  Future<void> scheduleNotification() async {
+    const androidDetails =
+    AndroidNotificationDetails(
+      'water_channel',
+      'Water Reminder',
+      channelDescription:
+      'Water reminder notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const details =
     NotificationDetails(
       android: androidDetails,
     );
 
     await flutterLocalNotificationsPlugin
-        .show(
-      0,
+        .zonedSchedule(
+      1,
       '💧 Water Reminder',
       'Time to drink some water!',
-      notificationDetails,
+      tz.TZDateTime.now(
+        tz.local,
+      ).add(
+        const Duration(seconds: 10),
+      ),
+      details,
+      androidScheduleMode:
+      AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
+  Future<void> cancelAll() async {
+    await flutterLocalNotificationsPlugin
+        .cancelAll();
+  }
 }
-
-
-
